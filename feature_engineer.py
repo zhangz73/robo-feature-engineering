@@ -1,3 +1,9 @@
+###
+# This script aims to denoise the data by clustering features into bins, so that the signals for the target variable will be stronger and more coherent within each feature.
+#
+# At the current version, it only handles independent univariate features in binary classification problems in a greedy way. More to come in future versions.
+###
+
 import numpy as np
 import pandas as pd
 
@@ -191,6 +197,24 @@ def cat_feat_eng_single(x, y, w = None, min_pop = 10000, max_split = np.inf,
         
     return lst, range_lst, info_lst
 
+###
+# This function conducts feature engineering on arbitrary univariate features that can be either numerical or categorical. It tunes the hyperparameter `merge_pct_factor` by tightening the criteria of merge until we get an engineered feature with more than one bins, or until we hit the max retry limit.
+# Inputs:
+#   x: The univariate feature to be engineered.
+#   y: The target variable that is either 0 or 1.
+#   w: The weight feature representing the weight/population for each data point. Default = None.
+#   is_cat: The feature `x` will be interpreted as a categorical variable if set to True, numerical if set to False. Default = False.
+#   min_pop: The minimum population in each bin. Default = 10000.
+#   max_split: The maximum number of bins we can generate. Currently not being used. Default = Inf.
+#   split_pop_ratio: If the population of a bin is larger than the population of the smallest bin by more than `split_pop_ratio` times, then split the larger bin into smaller ones. Only used when `x` is numerical. Default = 10.
+#   merge_pct_factor: If the fractions of `y` being 1 of adjacent bins are not differred by at least `merge_pct_factor`, then they will be merged with the neighbors with closest distribution of `y`. Default = 1.2.
+#   max_retry: The maximum number of attempts to tune the hyperparameter. Default = 5.
+#   step_size: The step size to decrease the `merge_pct_factor` until it is below 1. Default = 0.05.
+#   check_mono: Ensures the proportions of `y` being 1 in the returned bins are monotonic if set to True, False otherwise. Default = True.
+# Outputs:
+#   ret: If `x` is numerical, then `ret` is the list of ranges of numbers for each bin. If `x` is categorical, then `ret` is the list of values of `x` for each bin.
+#   ret_pct: The list of (population, proportion of `y` being 1) for each bin.
+###
 def feat_eng_single_tuning(x, y, w = None, is_cat = False, min_pop = 10000, max_split = np.inf, split_pop_ratio = 10, merge_pct_factor = 1.2, max_retry = 5, step_size = 0.05, check_mono = True):
     assert step_size > 0
     
