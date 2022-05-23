@@ -13,10 +13,12 @@ import pandas as pd
 from feature_engineer import feat_eng_single_tuning
 
 df = pd.read_csv("toy_data.csv")
+df_engineered = df[["Y"]].copy()
 
 for feat in ["C1", "C2", "X1", "X2"]:
     is_cat = feat.startswith("C")
-    res, ret_pct = feat_eng_single_tuning(np.array(df[feat]), np.array(df["Y"]), w = None, is_cat = is_cat, min_pop = 5000, max_split = np.inf, split_pop_ratio = 5, merge_pct_factor = 1.2, max_retry = 5, step_size = 0.05, check_mono = True)
+    x_new, res, ret_pct = feat_eng_single_tuning(np.array(df[feat]), np.array(df["Y"]), w = None, is_cat = is_cat, min_pop = 5000, max_split = np.inf, split_pop_ratio = 5, merge_pct_factor = 1.2, max_retry = 5, step_size = 0.05, check_mono = True)
+    df_engineered[feat] = x_new.copy()
     print(f"{feat} at the merge factor of {round(ret_pct, 2)}:")
     print(f"\tLevels: " + str(res[1]))
     print(f"\tDetails: " + str(['(n = ' + str(int(x[0])) + ', r = ' + str(round(x[1] * 100, 2)) + '%)' for x in res[2]]))
@@ -39,4 +41,21 @@ X1 at the merge factor of 1.2:
 X2 at the merge factor of 1.2:
 	Levels: [(-4.9996916033575385, 0.0024397819476797973), (0.0024397819476797973, 100.03284801353766), (100.03284801353766, 999.88659110659)]
 	Details: ['(n = 10000, r = 2.31%)', '(n = 5000, r = 12.62%)', '(n = 5000, r = 21.24%)']
+```
+The reconstructed dataframe `print(df_engineered)` after feature engineering is below:
+```
+       Y       C1       C2       X1       X2
+0      0  Block 1  Block 0  Block 0  Block 2
+1      0  Block 0  Block 1  Block 1  Block 1
+2      0  Block 2  Block 0  Block 0  Block 1
+3      0  Block 2  Block 0  Block 0  Block 0
+4      0  Block 2  Block 0  Block 1  Block 0
+...   ..      ...      ...      ...      ...
+19995  0  Block 2  Block 1  Block 0  Block 0
+19996  0  Block 1  Block 1  Block 1  Block 0
+19997  0  Block 0  Block 1  Block 0  Block 1
+19998  0  Block 1  Block 0  Block 0  Block 1
+19999  0  Block 1  Block 0  Block 0  Block 0
+
+[20000 rows x 5 columns]
 ```

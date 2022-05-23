@@ -243,4 +243,14 @@ def feat_eng_single_tuning(x, y, w = None, is_cat = False, min_pop = 10000, max_
         retry += 1
         if retry >= max_retry or pct_factor in attempted_pct or pct_factor <= 1:
             proceed = False
-    return ret, ret_pct
+    df = pd.DataFrame.from_dict({"X": x, "Y": y})
+    df["X_new"] = None
+    for i in range(len(ret[1])):
+        if is_cat:
+            df.loc[df["X"].isin(ret[1][i]), "X_new"] = f"Block {i}"
+        else:
+            if i < len(ret[1]) - 1:
+                df.loc[(df["X"] >= ret[1][i][0]) & (df["X"] < ret[1][i][1]), "X_new"] = f"Block {i}"
+            else:
+                df.loc[df["X"] >= ret[1][i][0], "X_new"] = f"Block {i}"
+    return np.array(df["X_new"]), ret, ret_pct
