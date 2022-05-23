@@ -256,3 +256,51 @@ def feat_eng_single_tuning(x, y, w = None, is_cat = False, min_pop = 10000, max_
                 df.loc[df["X"] >= ret[1][i][0], "X_new"] = f"Block_{i}"
     x_new = np.array(df["X_new"])
     return x_new, ret, ret_pct
+
+###
+# This function conducts feature engineering on the entire dataframe.
+# Inputs:
+#   x: The univariate feature to be engineered.
+#   y: The target variable that is either 0 or 1.
+#   w: The weight feature representing the weight/population for each data point. Default = None.
+#   is_cat: The feature `x` will be interpreted as a categorical variable if set to True, numerical if set to False. Default = False.
+#   min_pop: The minimum population in each bin. Default = 10000.
+#   max_split: The maximum number of bins we can generate. Currently not being used. Default = Inf.
+#   split_pop_ratio: If the population of a bin is larger than the population of the smallest bin by more than `split_pop_ratio` times, then split the larger bin into smaller ones. Only used when `x` is numerical. Default = 10.
+#   merge_pct_factor: If the fractions of `y` being 1 of adjacent bins are not differred by at least `merge_pct_factor`, then they will be merged with the neighbors with closest distribution of `y`. Default = 1.2.
+#   max_retry: The maximum number of attempts to tune the hyperparameter. Default = 5.
+#   step_size: The step size to decrease the `merge_pct_factor` until it is below 1. Default = 0.05.
+#   check_mono: Ensures the proportions of `y` being 1 in the returned bins are monotonic if set to True, False otherwise. Default = True.
+# Outputs:
+#   df_engineered: The reconstructed dataframe after feature engineering.
+###
+def feat_eng_single_df(df, y_name, w_name = None, cat_cols = [], num_cols = [], min_pop = 10000, max_split = np.inf, split_pop_ratio = 10, merge_pct_factor = 1.2, max_retry = 5, step_size = 0.05, check_mono = True, verbose = False):
+    df_engineered = df[[y_name]].copy()
+    if w_name is None:
+        w = None
+    else:
+        w = np.array(df[w_name])
+        df_engineered[w_name] = w
+    y = np.array(df[y_name])
+    info_dict = {}
+    for feat in df.columns:
+        if feat not in [y_name, w_name]:
+            if feat in cat_cols:
+                is_cat = True
+            elif feat in num_cols:
+                is_cat = False
+            else:
+                is_cat = None
+            if is_cat is not None:
+                x_new, res, ret_pct = feat_eng_single_tuning(np.array(df[feat]), np.array(df["Y"]), w = w, is_cat = is_cat, min_pop = min_pop, max_split = max_split, split_pop_ratio = split_pop_ratio, merge_pct_factor = merge_pct_factor, max_retry = max_retry, step_size = step_size, check_mono = check_mono)
+                info_dict[feat] = {"keep_original": False, "levels": res[1], "details": res[2], "merge_factor": ret_pct}
+                if verbose:
+                    print(f"{feat} at the merge factor of {round(ret_pct, 2)}:")
+                    print(f"\tLevels: " + str(res[1]))
+                    print(f"\tDetails: " + str(['(n = ' + str(int(x[0])) + ', r = ' + str(round(x[1] * 100, 2)) + '%)' for x in res[2]]))
+                    print("")
+            else:
+                x_new = np.array(df[feat])
+                info_dict[feat] = {"keep_original": True}
+            df_engineered[feat] = x_new.copy()
+    return df_engineered, info_dict
