@@ -248,11 +248,11 @@ def feat_eng_single_tuning(x, y, w = None, is_cat = False, min_pop = 10000, max_
     df["X_new"] = None
     for i in range(len(ret[1])):
         if is_cat:
-            df.loc[df["X"].isin(ret[1][i]), "X_new"] = f"Block {i}"
+            df.loc[df["X"].isin(ret[1][i]), "X_new"] = f"Block_{i}"
         else:
             if i < len(ret[1]) - 1:
-                df.loc[(df["X"] >= ret[1][i][0]) & (df["X"] < ret[1][i][1]), "X_new"] = f"Block {i}"
+                df.loc[(df["X"] >= ret[1][i][0]) & (df["X"] < ret[1][i][1]), "X_new"] = f"Block_{i}"
             else:
-                df.loc[df["X"] >= ret[1][i][0], "X_new"] = f"Block {i}"
+                df.loc[df["X"] >= ret[1][i][0], "X_new"] = f"Block_{i}"
     x_new = np.array(df["X_new"])
     return x_new, ret, ret_pct

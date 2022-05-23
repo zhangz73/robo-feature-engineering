@@ -45,17 +45,17 @@ X2 at the merge factor of 1.2:
 The reconstructed dataframe `df_engineered` after feature engineering is below:
 ```
        Y       C1       C2       X1       X2
-0      0  Block 1  Block 0  Block 0  Block 2
-1      0  Block 0  Block 1  Block 1  Block 1
-2      0  Block 2  Block 0  Block 0  Block 1
-3      0  Block 2  Block 0  Block 0  Block 0
-4      0  Block 2  Block 0  Block 1  Block 0
+0      0  Block_1  Block_0  Block_0  Block_2
+1      0  Block_0  Block_1  Block_1  Block_1
+2      0  Block_2  Block_0  Block_0  Block_1
+3      0  Block_2  Block_0  Block_0  Block_0
+4      0  Block_2  Block_0  Block_1  Block_0
 ...   ..      ...      ...      ...      ...
-19995  0  Block 2  Block 1  Block 0  Block 0
-19996  0  Block 1  Block 1  Block 1  Block 0
-19997  0  Block 0  Block 1  Block 0  Block 1
-19998  0  Block 1  Block 0  Block 0  Block 1
-19999  0  Block 1  Block 0  Block 0  Block 0
+19995  0  Block_2  Block_1  Block_0  Block_0
+19996  0  Block_1  Block_1  Block_1  Block_0
+19997  0  Block_0  Block_1  Block_0  Block_1
+19998  0  Block_1  Block_0  Block_0  Block_1
+19999  0  Block_1  Block_0  Block_0  Block_0
 
 [20000 rows x 5 columns]
 ```
