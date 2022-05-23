@@ -42,7 +42,7 @@ X2 at the merge factor of 1.2:
 	Levels: [(-4.9996916033575385, 0.0024397819476797973), (0.0024397819476797973, 100.03284801353766), (100.03284801353766, 999.88659110659)]
 	Details: ['(n = 10000, r = 2.31%)', '(n = 5000, r = 12.62%)', '(n = 5000, r = 21.24%)']
 ```
-The reconstructed dataframe `print(df_engineered)` after feature engineering is below:
+The reconstructed dataframe `df_engineered` after feature engineering is below:
 ```
        Y       C1       C2       X1       X2
 0      0  Block 1  Block 0  Block 0  Block 2

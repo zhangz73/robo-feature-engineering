@@ -212,6 +212,7 @@ def cat_feat_eng_single(x, y, w = None, min_pop = 10000, max_split = np.inf,
 #   step_size: The step size to decrease the `merge_pct_factor` until it is below 1. Default = 0.05.
 #   check_mono: Ensures the proportions of `y` being 1 in the returned bins are monotonic if set to True, False otherwise. Default = True.
 # Outputs:
+#   x_new: The reconstructed feature after binning `x`.
 #   ret: If `x` is numerical, then `ret` is the list of ranges of numbers for each bin. If `x` is categorical, then `ret` is the list of values of `x` for each bin.
 #   ret_pct: The list of (population, proportion of `y` being 1) for each bin.
 ###
@@ -253,4 +254,5 @@ def feat_eng_single_tuning(x, y, w = None, is_cat = False, min_pop = 10000, max_
                 df.loc[(df["X"] >= ret[1][i][0]) & (df["X"] < ret[1][i][1]), "X_new"] = f"Block {i}"
             else:
                 df.loc[df["X"] >= ret[1][i][0], "X_new"] = f"Block {i}"
-    return np.array(df["X_new"]), ret, ret_pct
+    x_new = np.array(df["X_new"])
+    return x_new, ret, ret_pct
