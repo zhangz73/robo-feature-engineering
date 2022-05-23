@@ -273,6 +273,7 @@ def feat_eng_single_tuning(x, y, w = None, is_cat = False, min_pop = 10000, max_
 #   check_mono: Ensures the proportions of `y` being 1 in the returned bins are monotonic if set to True, False otherwise. Default = True.
 # Outputs:
 #   df_engineered: The reconstructed dataframe after feature engineering.
+#   info_dict: The details about each level of the engineered features.
 ###
 def feat_eng_single_df(df, y_name, w_name = None, cat_cols = [], num_cols = [], min_pop = 10000, max_split = np.inf, split_pop_ratio = 10, merge_pct_factor = 1.2, max_retry = 5, step_size = 0.05, check_mono = True, verbose = False):
     df_engineered = df[[y_name]].copy()
