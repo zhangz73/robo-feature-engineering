@@ -293,7 +293,7 @@ def feat_eng_single_df(df, y_name, w_name = None, cat_cols = [], num_cols = [], 
                 is_cat = None
             if is_cat is not None:
                 x_new, res, ret_pct = feat_eng_single_tuning(np.array(df[feat]), np.array(df["Y"]), w = w, is_cat = is_cat, min_pop = min_pop, max_split = max_split, split_pop_ratio = split_pop_ratio, merge_pct_factor = merge_pct_factor, max_retry = max_retry, step_size = step_size, check_mono = check_mono)
-                info_dict[feat] = {"keep_original": False, "levels": res[1], "details": res[2], "merge_factor": ret_pct}
+                info_dict[feat] = {"keep_original": False, "levels": res[1], "details": res[2], "merge_factor": ret_pct, "engineered_values": [f"Block_{i}" for i in range(len(res[1]))]}
                 if verbose:
                     print(f"{feat} at the merge factor of {round(ret_pct, 2)}:")
                     print(f"\tLevels: " + str(res[1]))
