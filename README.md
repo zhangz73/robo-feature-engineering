@@ -73,6 +73,7 @@ The details about the what each level of each engineered feature represents with
                     (7000.0, 0.08228571428571428),
                     (8000.0, 0.163625)],
         'engineered_values': ['Block_0', 'Block_1', 'Block_2'],
+        'is_cat': True,
         'keep_original': False,
         'levels': [['Block_3_2', 'Block_3_1'],
                    ['Block_2_1', 'Block_2_2'],
@@ -80,20 +81,30 @@ The details about the what each level of each engineered feature represents with
         'merge_factor': 1.2},
  'C2': {'details': [(10000.0, 0.0484), (10000.0, 0.144)],
         'engineered_values': ['Block_0', 'Block_1'],
+        'is_cat': True,
         'keep_original': False,
         'levels': [['Block_1_2', 'Block_1_1'], ['Block_2_1', 'Block_2_2']],
         'merge_factor': 1.2},
  'X1': {'details': [(15000.0, 0.11606666666666667), (5000.0, 0.0366)],
         'engineered_values': ['Block_0', 'Block_1'],
+        'is_cat': False,
         'keep_original': False,
         'levels': [(0.0004889402859276082, 4.000479272723119),
                    (4.000479272723119, 29.99338949396259)],
         'merge_factor': 1.2},
  'X2': {'details': [(10000.0, 0.0231), (5000.0, 0.1262), (5000.0, 0.2124)],
         'engineered_values': ['Block_0', 'Block_1', 'Block_2'],
+        'is_cat': False,
         'keep_original': False,
         'levels': [(-4.9996916033575385, 0.0024397819476797973),
                    (0.0024397819476797973, 100.03284801353766),
                    (100.03284801353766, 999.88659110659)],
         'merge_factor': 1.2}}
 ```
+We conducted a simple evaluation by comparing the performance of the random forest classifier with and without applying this feature engineering pipeline. Experiments have demonstrated <strong>uniformly better performance</strong> when adopting the robo feature engineering.
+| - <td colspan=4>triple Without Feature Engineering <td colspan=4>triple With Feature Engineering |
+| Decile | Accuracy | Precision | Recall | Lift | Accuracy | Precision | Recall | Lift |
+| Top 1 Decile | 88.55% | 42.8% | 42.42% | 4.27 | 90.34% | 52.33% | 40.32% | 5.22 |
+| Top 2 Decile | 82.95% | 31.97% | 62.18% | 3.19 | 84.51% | 35.87% | 69.26% | 3.58 |
+| Top 3 Decile | 75.41% | 25.23% | 74.05% | 2.52 | 77.69% | 28.74% | 82.93% | 2.87 |
+| Top 4 Decile | 68.47% | 21.54% | 81.24% | 2.15 | 68.63% | 22.77% | 89.12% | 2.27 |

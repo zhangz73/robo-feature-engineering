@@ -197,6 +197,20 @@ def cat_feat_eng_single(x, y, w = None, min_pop = 10000, max_split = np.inf,
         
     return lst, range_lst, info_lst
 
+def reconstruct_feature(x, y, levels, is_cat):
+    df = pd.DataFrame.from_dict({"X": x, "Y": y})
+    df["X_new"] = None
+    for i in range(len(levels)):
+        if is_cat:
+            df.loc[df["X"].isin(levels[i]), "X_new"] = f"Block_{i}"
+        else:
+            if i < len(levels) - 1:
+                df.loc[(df["X"] >= levels[i][0]) & (df["X"] < levels[i][1]), "X_new"] = f"Block_{i}"
+            else:
+                df.loc[df["X"] >= levels[i][0], "X_new"] = f"Block_{i}"
+    x_new = np.array(df["X_new"])
+    return x_new
+
 ###
 # This function conducts feature engineering on arbitrary univariate features that can be either numerical or categorical. It tunes the hyperparameter `merge_pct_factor` by tightening the criteria of merge until we get an engineered feature with more than one bins, or until we hit the max retry limit.
 # Inputs:
@@ -244,25 +258,16 @@ def feat_eng_single_tuning(x, y, w = None, is_cat = False, min_pop = 10000, max_
         retry += 1
         if retry >= max_retry or pct_factor in attempted_pct or pct_factor <= 1:
             proceed = False
-    df = pd.DataFrame.from_dict({"X": x, "Y": y})
-    df["X_new"] = None
-    for i in range(len(ret[1])):
-        if is_cat:
-            df.loc[df["X"].isin(ret[1][i]), "X_new"] = f"Block_{i}"
-        else:
-            if i < len(ret[1]) - 1:
-                df.loc[(df["X"] >= ret[1][i][0]) & (df["X"] < ret[1][i][1]), "X_new"] = f"Block_{i}"
-            else:
-                df.loc[df["X"] >= ret[1][i][0], "X_new"] = f"Block_{i}"
-    x_new = np.array(df["X_new"])
+
+    x_new = reconstruct_feature(x, y, ret[1], is_cat)
     return x_new, ret, ret_pct
 
 ###
 # This function conducts feature engineering on the entire dataframe.
 # Inputs:
 #   x: The univariate feature to be engineered.
-#   y: The target variable that is either 0 or 1.
-#   w: The weight feature representing the weight/population for each data point. Default = None.
+#   y_name: The name of the target variable that is either 0 or 1.
+#   w_name: The name of the weight feature representing the weight/population for each data point. Default = None.
 #   is_cat: The feature `x` will be interpreted as a categorical variable if set to True, numerical if set to False. Default = False.
 #   min_pop: The minimum population in each bin. Default = 10000.
 #   max_split: The maximum number of bins we can generate. Currently not being used. Default = Inf.
@@ -271,6 +276,7 @@ def feat_eng_single_tuning(x, y, w = None, is_cat = False, min_pop = 10000, max_
 #   max_retry: The maximum number of attempts to tune the hyperparameter. Default = 5.
 #   step_size: The step size to decrease the `merge_pct_factor` until it is below 1. Default = 0.05.
 #   check_mono: Ensures the proportions of `y` being 1 in the returned bins are monotonic if set to True, False otherwise. Default = True.
+#   verbose: Print out details for each feature at each step if set to True, False otherwise. Default = False.
 # Outputs:
 #   df_engineered: The reconstructed dataframe after feature engineering.
 #   info_dict: The details about each level of the engineered features.
@@ -294,7 +300,7 @@ def feat_eng_single_df(df, y_name, w_name = None, cat_cols = [], num_cols = [], 
                 is_cat = None
             if is_cat is not None:
                 x_new, res, ret_pct = feat_eng_single_tuning(np.array(df[feat]), np.array(df["Y"]), w = w, is_cat = is_cat, min_pop = min_pop, max_split = max_split, split_pop_ratio = split_pop_ratio, merge_pct_factor = merge_pct_factor, max_retry = max_retry, step_size = step_size, check_mono = check_mono)
-                info_dict[feat] = {"keep_original": False, "levels": res[1], "details": res[2], "merge_factor": ret_pct, "engineered_values": [f"Block_{i}" for i in range(len(res[1]))]}
+                info_dict[feat] = {"keep_original": False, "levels": res[1], "details": res[2], "merge_factor": ret_pct, "engineered_values": [f"Block_{i}" for i in range(len(res[1]))], "is_cat": is_cat}
                 if verbose:
                     print(f"{feat} at the merge factor of {round(ret_pct, 2)}:")
                     print(f"\tLevels: " + str(res[1]))
@@ -305,3 +311,28 @@ def feat_eng_single_df(df, y_name, w_name = None, cat_cols = [], num_cols = [], 
                 info_dict[feat] = {"keep_original": True}
             df_engineered[feat] = x_new.copy()
     return df_engineered, info_dict
+
+###
+# This function applies the engineered features on another dataframe of the same structure.
+# Inputs:
+#   x: The univariate feature to be engineered.
+#   y_name: The name of the target variable that is either 0 or 1.
+#   w_name: The name of the weight feature representing the weight/population for each data point. Default = None.
+# Outputs:
+#   df_engineered: The reconstructed dataframe after feature engineering.
+###
+def get_df_from_info_dict(df, y_name, w_name = None, info_dict = {}):
+    df_engineered = df[[y_name]].copy()
+    if w_name is None:
+        w = None
+    else:
+        w = np.array(df[w_name])
+        df_engineered[w_name] = w
+    y = np.array(df[y_name])
+    for feat in info_dict:
+        if info_dict[feat]["keep_original"]:
+            x_new = np.array(df[feat])
+        else:
+            x_new = reconstruct_feature(np.array(df[feat]), y, info_dict[feat]["levels"], info_dict[feat]["is_cat"])
+        df_engineered[feat] = x_new
+    return df_engineered

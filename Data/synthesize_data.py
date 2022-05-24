@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-np.random.seed(1234)
+np.random.seed(0) #1234
 
 def synthesize_y(y_dist = [], n_data = []):
     assert len(y_dist) == len(n_data)
@@ -57,11 +57,17 @@ def synthesize_whole(feature_dict = {"C1": {"n_data": [[400, 200, 100, 50, 50], 
     df_ret = pd.DataFrame.from_dict(ret_dct)
     return df_ret.sample(frac = 1)
 
+#feature_dict = {
+#    "C1": {"n_data": [[4000, 2000, 2000], [3000, 4000], [3000, 2000]], "y_dist": [0.99, 0.5, 0.05]},
+#    "C2": {"n_data": [[6000, 4000], [3000, 7000]], "y_dist": [0.3, 0.9]},
+#    "X1": {"ranges": [(0, 4), (4, 30)], "n_data": [15000, 5000], "y_dist": [0.9, 0.3]},
+#    "X2": {"ranges": [(-5, 0), (0, 100), (100, 1000)], "n_data": [10000, 5000, 5000], "y_dist": [0.1, 0.5, 0.8]}
+#}
 feature_dict = {
-    "C1": {"n_data": [[4000, 2000, 2000], [3000, 4000], [3000, 2000]], "y_dist": [0.99, 0.5, 0.05]},
-    "C2": {"n_data": [[6000, 4000], [3000, 7000]], "y_dist": [0.3, 0.9]},
-    "X1": {"ranges": [(0, 4), (4, 30)], "n_data": [15000, 5000], "y_dist": [0.9, 0.3]},
-    "X2": {"ranges": [(-5, 0), (0, 100), (100, 1000)], "n_data": [10000, 5000, 5000], "y_dist": [0.1, 0.5, 0.8]}
+    "C1": {"n_data": [[2000, 1000, 1000], [1500, 2000], [1500, 1000]], "y_dist": [0.99, 0.5, 0.05]},
+    "C2": {"n_data": [[3000, 2000], [1500, 3500]], "y_dist": [0.3, 0.9]},
+    "X1": {"ranges": [(0, 4), (4, 30)], "n_data": [7500, 2500], "y_dist": [0.9, 0.3]},
+    "X2": {"ranges": [(-5, 0), (0, 100), (100, 1000)], "n_data": [5000, 2500, 2500], "y_dist": [0.1, 0.5, 0.8]}
 }
 df = synthesize_whole(feature_dict)
-df.to_csv("toy_data.csv", index=False)
+df.to_csv("test_data.csv", index=False)
