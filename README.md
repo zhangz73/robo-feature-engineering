@@ -111,3 +111,6 @@ We conducted a simple evaluation by comparing the performance of the random fore
 <tr> <td colspan=1> <strong>Top 3 Decile</strong> <td colspan=1> 75.41% <td colspan=1> 25.23% <td colspan=1> 74.05% <td colspan=1> 2.52 <td colspan=1> 77.69% <td colspan=1> 28.74% <td colspan=1> 82.93% <td colspan=1> 2.87
 <tr> <td colspan=1> <strong>Top 4 Decile</strong> <td colspan=1> 68.47% <td colspan=1> 21.54% <td colspan=1> 81.24% <td colspan=1> 2.15 <td colspan=1> 68.63% <td colspan=1> 22.77% <td colspan=1> 89.12% <td colspan=1> 2.27
 </table>
+
+Authors: Zhanhao Zhang  
+[![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC_BY--NC_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
