@@ -104,7 +104,7 @@ The details about the what each level of each engineered feature represents with
 We conducted a simple evaluation by comparing the performance of the random forest classifier with and without applying this feature engineering pipeline. Experiments have demonstrated <strong>uniformly better performance</strong> when adopting the robo feature engineering.
 
 <table>
-<tr> <td colspan=1> <td colspan=4 align="center"> <strong>Without Feature Engineering</strong> <br> (Precision = 38.67%, ROC-AUC = 0.81) <td colspan=4 align="center"> <strong>With Feature Engineering</strong> <br> (Precision = 44.13%, ROC-AUC = 0.87)
+<tr> <td colspan=1> <td colspan=4 align="center"> <strong>Without Feature Engineering</strong> <br> (Avg Precision = 38.67%, ROC-AUC = 0.81) <td colspan=4 align="center"> <strong>With Feature Engineering</strong> <br> (Avg Precision = 44.13%, ROC-AUC = 0.87)
 <tr> <td colspan=1> <strong>Decile</strong> <td colspan=1> <strong>Accuracy</strong> <td colspan=1> <strong>Precision</strong> <td colspan=1> <strong>Recall</strong> <td colspan=1> <strong>Lift</strong> <td colspan=1> <strong>Accuracy</strong> <td colspan=1> <strong>Precision</strong> <td colspan=1> <strong>Recall</strong> <td colspan=1> <strong>Lift</strong>
 <tr> <td colspan=1> <strong>Top 1 Decile</strong> <td colspan=1> 88.55% <td colspan=1> 42.80% <td colspan=1> 42.42% <td colspan=1> 4.27 <td colspan=1> 90.34% <td colspan=1> 52.33% <td colspan=1> 40.32% <td colspan=1> 5.22
 <tr> <td colspan=1> <strong>Top 2 Decile</strong> <td colspan=1> 82.95% <td colspan=1> 31.97% <td colspan=1> 62.18% <td colspan=1> 3.19 <td colspan=1> 84.51% <td colspan=1> 35.87% <td colspan=1> 69.26% <td colspan=1> 3.58
