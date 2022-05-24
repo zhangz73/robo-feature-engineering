@@ -102,9 +102,12 @@ The details about the what each level of each engineered feature represents with
         'merge_factor': 1.2}}
 ```
 We conducted a simple evaluation by comparing the performance of the random forest classifier with and without applying this feature engineering pipeline. Experiments have demonstrated <strong>uniformly better performance</strong> when adopting the robo feature engineering.
-| - <td colspan=4>triple Without Feature Engineering <td colspan=4>triple With Feature Engineering |
-| Decile | Accuracy | Precision | Recall | Lift | Accuracy | Precision | Recall | Lift |
-| Top 1 Decile | 88.55% | 42.8% | 42.42% | 4.27 | 90.34% | 52.33% | 40.32% | 5.22 |
-| Top 2 Decile | 82.95% | 31.97% | 62.18% | 3.19 | 84.51% | 35.87% | 69.26% | 3.58 |
-| Top 3 Decile | 75.41% | 25.23% | 74.05% | 2.52 | 77.69% | 28.74% | 82.93% | 2.87 |
-| Top 4 Decile | 68.47% | 21.54% | 81.24% | 2.15 | 68.63% | 22.77% | 89.12% | 2.27 |
+
+<table>
+<tr> <td colspan=1> <td colspan=4 align="center"> <strong>Without Feature Engineering</strong> <br> (Precision = 38.67%, ROC-AUC = 0.81) <td colspan=4 align="center"> <strong>With Feature Engineering</strong> <br> (Precision = 44.13%, ROC-AUC = 0.87)
+<tr> <td colspan=1> <strong>Decile</strong> <td colspan=1> <strong>Accuracy</strong> <td colspan=1> <strong>Precision</strong> <td colspan=1> <strong>Recall</strong> <td colspan=1> <strong>Lift</strong> <td colspan=1> <strong>Accuracy</strong> <td colspan=1> <strong>Precision</strong> <td colspan=1> <strong>Recall</strong> <td colspan=1> <strong>Lift</strong>
+<tr> <td colspan=1> <strong>Top 1 Decile</strong> <td colspan=1> 88.55% <td colspan=1> 42.80% <td colspan=1> 42.42% <td colspan=1> 4.27 <td colspan=1> 90.34% <td colspan=1> 52.33% <td colspan=1> 40.32% <td colspan=1> 5.22
+<tr> <td colspan=1> <strong>Top 2 Decile</strong> <td colspan=1> 82.95% <td colspan=1> 31.97% <td colspan=1> 62.18% <td colspan=1> 3.19 <td colspan=1> 84.51% <td colspan=1> 35.87% <td colspan=1> 69.26% <td colspan=1> 3.58
+<tr> <td colspan=1> <strong>Top 3 Decile</strong> <td colspan=1> 75.41% <td colspan=1> 25.23% <td colspan=1> 74.05% <td colspan=1> 2.52 <td colspan=1> 77.69% <td colspan=1> 28.74% <td colspan=1> 82.93% <td colspan=1> 2.87
+<tr> <td colspan=1> <strong>Top 4 Decile</strong> <td colspan=1> 68.47% <td colspan=1> 21.54% <td colspan=1> 81.24% <td colspan=1> 2.15 <td colspan=1> 68.63% <td colspan=1> 22.77% <td colspan=1> 89.12% <td colspan=1> 2.27
+</table>
