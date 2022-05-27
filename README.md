@@ -113,4 +113,5 @@ We conducted a simple evaluation by comparing the performance of the random fore
 </table>
 
 Authors: Zhanhao Zhang  
-[![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC_BY--NC_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
+<!-- [![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC_BY--NC_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
+-->
