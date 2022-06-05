@@ -1,4 +1,4 @@
-# robo-feature-engineering
+# Robo Feature Engineering
 
 ## Background
 Real-world datasets are more often noisy. Even for features with strong predictive power, it is unsurprisingly common to find segments that demonstrate contradicting trends. Simple models like logistic regressions might still be doing okay, as they enforce the monotonic assumption on the features. However, for the more sophisticated models such as random forest and gradient boosting, those contradictory segments can introduce high risk of overfitting. Therefore, denoising the data has become crucial before feeding it into machine learning models.
@@ -7,7 +7,7 @@ Data scientists usually have to spend a large amount of time exploring the datas
 
 ## Example Usage
 A simple example for engineering the features in the synthetic dataset can be found below. This example illustrates how each individual feature is engineered and how each reconstructed feature looks like:
-```python
+```Python
 import numpy as np
 import pandas as pd
 from feature_engineer import feat_eng_single_tuning, feat_eng_single_df
@@ -44,7 +44,7 @@ X2 at the merge factor of 1.2:
 	Details: ['(n = 10000, r = 2.31%)', '(n = 5000, r = 12.62%)', '(n = 5000, r = 21.24%)']
 ```
 To obtain the reconstructed dataframe all at once, we can leverage the function `feat_eng_single_df`:
-```python
+```Python
 df_engineered = feat_eng_single_df(df, "Y", w_name = None, cat_cols = ["C1", "C2"], num_cols = ["X1", "X2"], min_pop = 5000, max_split = np.inf, split_pop_ratio = 5, merge_pct_factor = 1.2, max_retry = 5, step_size = 0.05, check_mono = True, verbose = False)
 
 print(df_engineered)
